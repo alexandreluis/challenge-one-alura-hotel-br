@@ -38,7 +38,7 @@ public class MenuPrincipal extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
