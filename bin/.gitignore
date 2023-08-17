@@ -1,4 +1,6 @@
-/Factory/
 /views/
-/factory/
 /model/
+/controller/
+/connection/
+/service/
+/repository/
