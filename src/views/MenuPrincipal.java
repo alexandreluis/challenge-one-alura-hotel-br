@@ -8,6 +8,7 @@ import java.awt.Panel;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -105,11 +106,17 @@ public class MenuPrincipal extends JFrame {
 		
 		//Botón sair
 		JPanel btnexit = new JPanel();
-		btnexit.addMouseListener(new MouseAdapter() {
+		btnexit.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+			public void mouseClicked(MouseEvent e) 
+			{
+				if ((JOptionPane.showConfirmDialog(null ,"Deseja, realmente, fechar a aplicação?", "Sair", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION)
+				{
+					System.exit(0);
+				}
 			}
+			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnexit.setBackground(Color.red);

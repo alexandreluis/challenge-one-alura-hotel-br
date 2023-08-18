@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class Hospede 
 {
-	private Long id;
+	private Integer id;
 	private String nome;
-	private String ultimoNome;
+	private String sobrenome;
 	private Date dataNascimento;
 	private String nacionalidade;
 	private String telefone;
@@ -17,20 +17,20 @@ public class Hospede
 	
 	public Hospede() {}
 	
-	public Hospede(String nome, String ultimoNome, Date dataNascimento, String nacionalidade, String telefone) 
+	public Hospede(String nome, String sobrenome, Date dataNascimento, String nacionalidade, String telefone) 
 	{
 		this.nome = nome;
-		this.ultimoNome = ultimoNome;
+		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
 		this.nacionalidade = nacionalidade;
 		this.telefone = telefone;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -42,12 +42,12 @@ public class Hospede
 		this.nome = nome;
 	}
 
-	public String getUltimoNome() {
-		return ultimoNome;
+	public String getSobrenome() {
+		return sobrenome;
 	}
 
-	public void setUltimoNome(String ultimoNome) {
-		this.ultimoNome = ultimoNome;
+	public void setSobrenome(String ultimoNome) {
+		this.sobrenome = ultimoNome;
 	}
 
 	public Date getDataNascimento() {
@@ -94,7 +94,7 @@ public class Hospede
 	@Override
 	public String toString() 
 	{
-		return "Hospede [nome=" + nome + ", ultimoNome=" + ultimoNome + ", dataNascimento=" + dataNascimento
+		return "Hospede [nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento=" + dataNascimento
 				+ ", nacionalidade=" + nacionalidade + ", telefone=" + telefone + "]";
 	}
 }
