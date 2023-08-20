@@ -107,15 +107,4 @@ public class HospedeRepository
 
 		return hospedes;
 	}
-	
-	
-	public static void main(String[] args)
-	{
-		HospedeRepository hosp = new HospedeRepository();
-		
-		Date dataEntrada = Date.valueOf("2023-08-17");
-		
-		Hospede hopede = new Hospede("nomes", " ultimoNome", dataEntrada, "String nacionalidade", "String telefone");
-		hosp.guardar(hopede);
-	}
 }
