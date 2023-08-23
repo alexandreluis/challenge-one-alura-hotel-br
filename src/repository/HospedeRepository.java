@@ -40,11 +40,11 @@ public class HospedeRepository
 	}
 	
 	
-	public Hospede guardar(Hospede hospede)
+	public Hospede cadastrar(Hospede hospede)
 	{
 		try
 		{
-			sql = "INSERT INTO hospedes (NOME, SOBRE_NOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE) VALUES (?, ?, ?, ?, ?)";
+			sql = "INSERT INTO hospedes (NOME, SOBRE_NOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) VALUES (?, ?, ?, ?, ?, ?)";
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, hospede.getNome());
@@ -52,6 +52,7 @@ public class HospedeRepository
 			statement.setDate(3, hospede.getDataNascimento());
 			statement.setString(4, hospede.getNacionalidade());
 			statement.setString(5, hospede.getTelefone());
+			statement.setInt(6, hospede.getNumeroDeReserva());
 			
 			statement.execute();
 			
@@ -96,6 +97,7 @@ public class HospedeRepository
 				hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
 				hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
 				hospede.setTelefone(resultSet.getString("TELEFONE"));
+				hospede.setNumeroDeReserva(resultSet.getInt("ID_RESERVA"));
 				
 				hospedes.add(hospede);
 			}

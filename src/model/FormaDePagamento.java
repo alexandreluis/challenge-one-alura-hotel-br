@@ -4,8 +4,20 @@ package model;
 
 public enum FormaDePagamento
 {
-	CREDITO,
-	DEBITO,
-	DINHEIRO,
-	PIX
+	CREDITO("Cartão de Crédito"),
+	DEBITO("Cartão de Débito"),
+	BOLETO("Dinheiro");
+	
+	
+	private String descricao;
+	
+	FormaDePagamento(String descricao) 
+	{
+		this.descricao = descricao;
+	}
+	
+	public String getDescricao() 
+	{
+		return this.descricao;
+	}
 }

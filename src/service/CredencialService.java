@@ -6,24 +6,24 @@ import utilities.Password;
 
 
 
-public class LogarService 
+public class CredencialService 
 {
 	CredencialRepository credencialRepository = new CredencialRepository();
-	Credencial credencialLocal = null;
+	private Credencial credencialLocal = new Credencial();
 	
 	
-	public LogarService(){}
+	public CredencialService(){}
 	
-	public Boolean podeLogar(Credencial credencial)
+	public Boolean podeLogar(String login, String password)
 	{
-		if(!(credencial.getLogin().isEmpty()))
+		if(!(login.isEmpty()))
 		{
-			this.credencialLocal = credencialRepository.buscaPorLogin(credencial.getLogin());
+			this.credencialLocal = credencialRepository.buscaPorLogin(login);
 		}
 		
-		if(!credencial.getPassword().equals(null))
+		if(!password.equals(null))
 		{
-			return comparaSenha(credencial.getPassword(), this.credencialLocal.getPassword());
+			return comparaSenha(password, this.credencialLocal.getPassword());
 		}
 		
 		return false;

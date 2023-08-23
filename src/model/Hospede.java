@@ -13,6 +13,7 @@ public class Hospede
 	private Date dataNascimento;
 	private String nacionalidade;
 	private String telefone;
+	private Integer numeroDeReserva;
 	
 	
 	public Hospede() {}
@@ -24,6 +25,16 @@ public class Hospede
 		this.dataNascimento = dataNascimento;
 		this.nacionalidade = nacionalidade;
 		this.telefone = telefone;
+	}
+
+	public Hospede(String nome, String sobrenome, Date dataNascimento, String nacionalidade, String telefone, Integer numeroDeReserva) 
+	{
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.dataNascimento = dataNascimento;
+		this.nacionalidade = nacionalidade;
+		this.telefone = telefone;
+		this.numeroDeReserva = numeroDeReserva;
 	}
 
 	public Integer getId() {
@@ -46,8 +57,8 @@ public class Hospede
 		return sobrenome;
 	}
 
-	public void setSobrenome(String ultimoNome) {
-		this.sobrenome = ultimoNome;
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 
 	public Date getDataNascimento() {
@@ -74,9 +85,12 @@ public class Hospede
 		this.telefone = telefone;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public Integer getNumeroDeReserva() {
+		return numeroDeReserva;
+	}
+
+	public void setNumeroDeReserva(Integer numeroDeReserva) {
+		this.numeroDeReserva = numeroDeReserva;
 	}
 
 	@Override
@@ -92,9 +106,9 @@ public class Hospede
 	}
 
 	@Override
-	public String toString() 
-	{
-		return "Hospede [nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento=" + dataNascimento
-				+ ", nacionalidade=" + nacionalidade + ", telefone=" + telefone + "]";
+	public String toString() {
+		return "Hospede [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento="
+				+ dataNascimento + ", nacionalidade=" + nacionalidade + ", telefone=" + telefone + ", numeroDeReserva="
+				+ numeroDeReserva + "]";
 	}
 }

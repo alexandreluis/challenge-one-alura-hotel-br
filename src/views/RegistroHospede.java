@@ -7,6 +7,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
+
+import controller.HospedeController;
+import model.Hospede;
+import model.Reserva;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -19,15 +24,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
 import java.text.Format;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 
-@SuppressWarnings("serial")
-public class RegistroHospede extends JFrame {
 
+@SuppressWarnings("serial")
+public class RegistroHospede extends JFrame 
+{
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtSobrenome;
@@ -38,17 +45,27 @@ public class RegistroHospede extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
+	protected static Reserva reserva;
+	private static ReservasView reservas;
+	private Hospede hospede = new Hospede();
+	private HospedeController hospedeController = new HospedeController();
 
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
 					RegistroHospede frame = new RegistroHospede();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
@@ -58,8 +75,8 @@ public class RegistroHospede extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroHospede() {
-		
+	public RegistroHospede() 
+	{
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHospede.class.getResource("/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 634);
@@ -229,13 +246,21 @@ public class RegistroHospede extends JFrame {
 		lblTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 23));
 		contentPane.add(lblTitulo);
 		
+		
 		JLabel lblNumeroReserva = new JLabel("NÚMERO DE RESERVA");
 		lblNumeroReserva.setBounds(560, 474, 253, 14);
 		lblNumeroReserva.setForeground(SystemColor.textInactiveText);
 		lblNumeroReserva.setFont(new Font("Roboto Black", Font.PLAIN, 18));
 		contentPane.add(lblNumeroReserva);
 		
+		
+		
 		txtNreserva = new JTextField();
+		
+		reservas = new ReservasView();
+		reserva = reservas.pegaReserva();
+		
+		txtNreserva.setText("" + reserva.getId());
 		txtNreserva.setFont(new Font("Roboto", Font.PLAIN, 16));
 		txtNreserva.setBounds(560, 495, 285, 33);
 		txtNreserva.setColumns(10);
@@ -281,9 +306,29 @@ public class RegistroHospede extends JFrame {
 		
 		JPanel btnsalvar = new JPanel();
 		btnsalvar.setBounds(723, 560, 122, 35);
-		btnsalvar.addMouseListener(new MouseAdapter() {
+		btnsalvar.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) 
+			{
+				hospede.setNome(txtNome.getText());
+				hospede.setSobrenome(txtSobrenome.getText());
+				
+				Date date = new Date(txtDataN.getCalendar().getTime().getTime()); 
+				hospede.setDataNascimento(date);
+				
+				hospede.setNacionalidade(txtNacionalidade.getSelectedItem().toString());
+				hospede.setTelefone(txtTelefone.getText()) ;
+				hospede.setNumeroDeReserva(Integer.parseInt(txtNreserva.getText()));
+				
+				hospedeController.cadastraHospede(hospede);
+				
+				JOptionPane.showMessageDialog(null, "Hóspede cadastrado com sucesso!");
+				
+				
+				MenuUsuario menuUsuario = new MenuUsuario();
+				menuUsuario.setVisible(true);
+				dispose();
 			}
 		});
 		btnsalvar.setLayout(null);
