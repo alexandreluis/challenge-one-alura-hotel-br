@@ -16,7 +16,6 @@ public class CredencialRepository
 	private ConnectionFactory connectionFactory = new ConnectionFactory();
 	private Connection connection = null;
 	private PreparedStatement statement = null;
-	private ResultSet resultSet = null;
 	private String sql = null;
 	
 	

@@ -21,7 +21,7 @@ public class HospedeRepository
 	private PreparedStatement statement = null;
 	private ResultSet resultSet = null;
 	private String sql = null;
-	private Hospede hospede;
+	private Hospede hospede = new Hospede();
 	private List<Hospede> hospedes = new ArrayList<>();
 	
 	
@@ -87,7 +87,7 @@ public class HospedeRepository
 			
 			statement.execute();
 			
-			ResultSet resultSet = statement.getResultSet();
+			resultSet = statement.getResultSet();
 			
 			while(resultSet.next())
 			{
@@ -108,5 +108,85 @@ public class HospedeRepository
 		}
 
 		return hospedes;
+	}
+	
+	public Hospede buscaPorId(Long id)
+	{		
+		try
+		{
+			sql = "SELECT * FROM reservas WHERE id = ?";
+			
+			statement = connection.prepareStatement(sql);
+			statement.setLong(1, id);
+			
+			resultSet = statement.getResultSet();
+			
+			while(resultSet.next())
+			{
+				hospede.setId(resultSet.getInt("ID"));
+				hospede.setNome(resultSet.getString("NOME"));
+				hospede.setSobrenome(resultSet.getString("SOBRE_NOME"));
+				hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
+				hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
+				hospede.setTelefone(resultSet.getString("TELEFONE"));
+				hospede.setNumeroDeReserva(resultSet.getInt("ID_RESERVA"));
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			try
+			{
+				connection.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return hospede;
+	}
+	
+	public Hospede buscaPorIdReserva(Long id_reserva)
+	{
+		try
+		{
+			sql = "SELECT * FROM hospedes WHERE id_reserva = ?";
+			
+			statement = connection.prepareStatement(sql);
+			statement.setLong(1, id_reserva);
+			statement.execute();
+			
+			resultSet = statement.getResultSet();
+						
+	
+			while(resultSet.next())
+			{
+				hospede.setId(resultSet.getInt("ID"));
+				hospede.setNome(resultSet.getString("NOME"));
+				hospede.setSobrenome(resultSet.getString("SOBRE_NOME"));
+				hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
+				hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
+				hospede.setTelefone(resultSet.getString("TELEFONE"));
+				hospede.setNumeroDeReserva(resultSet.getInt("ID_RESERVA"));
+				
+				return hospede;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			try
+			{
+				connection.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return  null;
 	}
 }

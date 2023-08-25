@@ -1,8 +1,7 @@
 package controller;
 
-import java.util.Date;
 import java.util.List;
-
+import javax.swing.table.DefaultTableModel;
 import model.Reserva;
 import service.ReservaService;
 
@@ -21,6 +20,11 @@ public class ReservaController
 	public Reserva buscaPorId(Long id)
 	{
 		return service.buscarPorId(id);
+	}
+	
+	public DefaultTableModel buscaPorId(Long id, DefaultTableModel modelo)
+	{
+		return service.buscarPorId(id, modelo);
 	}
 	
 	public List<Reserva> listaReservas()

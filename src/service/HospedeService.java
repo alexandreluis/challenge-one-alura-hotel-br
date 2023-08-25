@@ -3,14 +3,16 @@ package service;
 import java.util.List;
 
 import model.Hospede;
+import javax.swing.table.DefaultTableModel;
 import repository.HospedeRepository;
-import repository.ReservaRepository;
 
 
 
 public class HospedeService 
 {
 	private HospedeRepository hospedeRepository = new HospedeRepository();
+	private Hospede hospede;
+	private Object[] rowData = new Object[7];
 	
 	
 	public Hospede cadastrar(Hospede hospede)
@@ -21,6 +23,75 @@ public class HospedeService
 		}
 		
 		return null;
+	}
+	
+	
+	public DefaultTableModel buscaPorIdReserva(Long id_reserva, DefaultTableModel modelo)
+	{
+		if(id_reserva >= 0)
+		{
+			hospede = hospedeRepository.buscaPorIdReserva(id_reserva);
+		}
+		
+		if(hospede == null)
+		{
+			rowData[0] = "";
+			rowData[1] = "";
+			rowData[2] = "";
+			rowData[3] = "";
+			rowData[4] = "";
+			rowData[5] = "";
+			rowData[6] = "";
+			
+			modelo.addRow(rowData);
+		}else
+		{
+			rowData[0] = hospede.getId();
+			rowData[1] = hospede.getNome();
+			rowData[2] = hospede.getSobrenome();
+			rowData[3] = hospede.getDataNascimento();
+			rowData[4] = hospede.getNacionalidade();
+			rowData[5] = hospede.getTelefone();
+			rowData[6] = hospede.getNumeroDeReserva();
+			
+			modelo.addRow(rowData);
+		}
+		
+		return modelo;
+	}
+	
+	public DefaultTableModel buscarPorId(Long id, DefaultTableModel modelo)
+	{
+		if(id >= 0)
+		{
+			hospede = hospedeRepository.buscaPorId(id);
+		}
+		
+		if(hospede == null)
+		{		
+			rowData[0] = "";
+			rowData[1] = "";
+			rowData[2] = "";
+			rowData[3] = "";
+			rowData[4] = "";
+			rowData[5] = "";
+			rowData[6] = "";
+			
+			modelo.addRow(rowData);
+		}else
+		{
+			rowData[0] = hospede.getId();
+			rowData[1] = hospede.getNome();
+			rowData[2] = hospede.getSobrenome();
+			rowData[3] = hospede.getDataNascimento();
+			rowData[4] = hospede.getNacionalidade();
+			rowData[5] = hospede.getTelefone();
+			rowData[6] = hospede.getNumeroDeReserva();
+			
+			modelo.addRow(rowData);
+		}
+		
+		return modelo;
 	}
 	
 	public List<Hospede> listar()

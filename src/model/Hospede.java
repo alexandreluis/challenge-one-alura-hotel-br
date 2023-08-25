@@ -1,5 +1,6 @@
 package model;
 
+
 import java.sql.Date;
 import java.util.Objects;
 
@@ -108,7 +109,6 @@ public class Hospede
 	@Override
 	public String toString() {
 		return "Hospede [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento="
-				+ dataNascimento + ", nacionalidade=" + nacionalidade + ", telefone=" + telefone + ", numeroDeReserva="
-				+ numeroDeReserva + "]";
+				+ dataNascimento + ", nacionalidade=" + nacionalidade + ", telefone=" + telefone + ", numeroDeReserva=" + numeroDeReserva + "]";
 	}
 }

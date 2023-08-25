@@ -11,22 +11,22 @@ public class Reserva
 	private Date dataEntrada;
 	private Date dataSaida;
 	private Double valor;
-	
 	private FormaDePagamento formaDePagamento;
 	private Hospede hospede;
 	
 	
 	public Reserva() {}
 	
-	public Reserva(Date dataEntrada, Date dataSaida, Double valor, FormaDePagamento formaDePagamento, Hospede hospede) 
+	public Reserva(Long id, Date dataEntrada, Date dataSaida, Double valor, FormaDePagamento formaDePagamento, Hospede hospede) 
 	{
+		this.id = id;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
 		this.valor = valor;
 		this.formaDePagamento = formaDePagamento;
 		this.hospede = hospede;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +75,7 @@ public class Reserva
 		this.hospede = hospede;
 	}
 
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -93,8 +94,8 @@ public class Reserva
 	}
 
 	@Override
-	public String toString() {
-		return "Reserva [dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + ", valor=" + valor
-				+ ", formaDePagamento=" + formaDePagamento + ", hospede=" + hospede + "]";
+	public String toString() 
+	{
+		return "Reserva [id=" + id + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + ", valor=" + valor + ", formaDePagamento=" + formaDePagamento + ", hospede=" + hospede + "]";
 	}
 }

@@ -21,6 +21,7 @@ public class ReservaRepository
 	private PreparedStatement statement = null;
 	private ResultSet resultSet = null;
 	private String sql = null;
+	private Reserva reserva = new Reserva();
 	
 	
 	public ReservaRepository() 
@@ -54,7 +55,7 @@ public class ReservaRepository
 				return null;
 			}
 
-			ResultSet resultSet = statement.getGeneratedKeys();
+			resultSet = statement.getGeneratedKeys();
 			
 			
 			while(resultSet.next())
@@ -70,10 +71,7 @@ public class ReservaRepository
 	}
 	
 	public Reserva buscaPorId(Long id)
-	{
-		Reserva reserva = new Reserva();
-		
-		
+	{		
 		try
 		{
 			sql = "SELECT * FROM reservas WHERE id = ?";
@@ -82,7 +80,8 @@ public class ReservaRepository
 			statement.setLong(1, id);
 			statement.execute();
 			
-			ResultSet resultSet = statement.getResultSet();
+			resultSet = statement.getResultSet();
+			
 			
 			while(resultSet.next())
 			{
@@ -91,17 +90,18 @@ public class ReservaRepository
 				reserva.setDataSaida(resultSet.getDate("DATA_SAIDA"));
 				reserva.setValor(resultSet.getDouble("VALOR"));
 				
-				if(resultSet.getString("FORMA_PAGAMENTO") == "CREDITO")
+				
+				if(resultSet.getString("FORMA_PAGAMENTO").toString().equals("CREDITO"))
 				{
 					reserva.setFormaDePagamento(FormaDePagamento.CREDITO);
 				}
 
-				if(resultSet.getString("FORMA_PAGAMENTO") == "DEBITO")
+				if(resultSet.getString("FORMA_PAGAMENTO").toString().equals("DEBITO"))
 				{
 					reserva.setFormaDePagamento(FormaDePagamento.DEBITO);
 				}
 				
-				if(resultSet.getString("FORMA_PAGAMENTO") == "DINHEIRO")
+				if(resultSet.getString("FORMA_PAGAMENTO").toString().equals("BOLETO"))
 				{
 					reserva.setFormaDePagamento(FormaDePagamento.BOLETO);
 				}
