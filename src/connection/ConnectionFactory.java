@@ -20,15 +20,27 @@ public class ConnectionFactory
 
 	public ConnectionFactory(){}
 	
-	public Connection getConnection() throws SQLException
+	public Connection getConnection()
 	{
-		connection = DriverManager.getConnection(url, user, password);
-		
+		try 
+		{
+			connection = DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+
 		return connection;
 	}
 
-	public void closeConnection() throws SQLException
+	public void closeConnection()
 	{
-		this.connection.close();
+		try 
+		{
+			this.connection.close();
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }

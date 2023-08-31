@@ -33,4 +33,9 @@ public class HospedeController
 	{
 		return service.listar();
 	}
+
+	public Boolean atualizarHospede(Hospede modelo) 
+	{
+		return service.atualizar(modelo);
+	}
 }

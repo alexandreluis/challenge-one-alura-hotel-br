@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import connection.ConnectionFactory;
 import model.Credencial;
-import model.Hospede;
 
 
 
@@ -20,14 +19,8 @@ public class CredencialRepository
 	
 	
 	public CredencialRepository()
-	{	
-		try 
-		{
-			connection = connectionFactory.getConnection();
-		} catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
+	{	 
+		connection = connectionFactory.getConnection();
 	}
 
 
@@ -56,12 +49,7 @@ public class CredencialRepository
 			e.printStackTrace();
 		}finally
 		{
-			try {
-				connection.close();
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
+			connectionFactory.closeConnection();
 		}
 		
 		return credencial;

@@ -26,13 +26,7 @@ public class ReservaRepository
 	
 	public ReservaRepository() 
 	{
-		try
-		{
-			connection = connectionFactory.getConnection();
-		}catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
+		connection = connectionFactory.getConnection();
 	}
 	
 	public Reserva cadastrar(Reserva reserva)
@@ -111,13 +105,7 @@ public class ReservaRepository
 			e.printStackTrace();
 		}finally
 		{
-			try
-			{
-				connection.close();
-			}catch(SQLException e)
-			{
-				e.printStackTrace();
-			}
+			connectionFactory.closeConnection();
 		}
 		
 		return reserva;
@@ -167,13 +155,7 @@ public class ReservaRepository
 			e.printStackTrace();
 		}finally
 		{
-			try
-			{
-				connection.close();
-			}catch(SQLException e)
-			{
-				e.printStackTrace();
-			}
+			connectionFactory.closeConnection();
 		}
 		
 		return lista;

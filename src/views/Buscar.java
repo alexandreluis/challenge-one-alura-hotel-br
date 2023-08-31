@@ -28,6 +28,7 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
 
 
 
@@ -37,7 +38,7 @@ public class Buscar extends JFrame
 
 	private JPanel contentPane;
 	private JTextField txtBuscar;
-	private JTable tbHospedes;
+	private JTable tbHospedes = new JTable();
 	private JTable tbReservas;
 	private DefaultTableModel modelo;
 	private DefaultTableModel modeloHospedes;
@@ -46,7 +47,8 @@ public class Buscar extends JFrame
 	int xMouse, yMouse;
 	private ReservaController reservaController;
 	private HospedeController hospedeController;
-	private Hospede hospede;
+	private static Hospede hospede = new Hospede();
+
 
 	/**
 	 * Launch the application.
@@ -123,7 +125,7 @@ public class Buscar extends JFrame
 		scroll_table.setVisible(true);
 		
 		
-		tbHospedes = new JTable();
+		
 		tbHospedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbHospedes.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modeloHospedes = (DefaultTableModel) tbHospedes.getModel();
@@ -180,6 +182,7 @@ public class Buscar extends JFrame
 			     labelAtras.setForeground(Color.black);
 			}
 		});
+		
 		btnAtras.setLayout(null);
 		btnAtras.setBackground(Color.WHITE);
 		btnAtras.setBounds(0, 0, 53, 36);
@@ -229,7 +232,8 @@ public class Buscar extends JFrame
 		contentPane.add(separator_1_2);
 		
 		JPanel btnbuscar = new JPanel();
-		btnbuscar.addMouseListener(new MouseAdapter() {
+		btnbuscar.addMouseListener(new MouseAdapter() 
+		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
@@ -239,8 +243,6 @@ public class Buscar extends JFrame
 					
 					reservaController = new ReservaController();
 					modelo = reservaController.buscaPorId(Long.parseLong(txtBuscar.getText()), modelo);
-				
-					
 					
 					modeloHospedes.getDataVector().removeAllElements();
 					
@@ -280,13 +282,33 @@ public class Buscar extends JFrame
 		lblBuscar.setForeground(Color.WHITE);
 		lblBuscar.setFont(new Font("Roboto", Font.PLAIN, 18));
 		
+ 
 		JPanel btnEditar = new JPanel();
+		btnEditar.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{				
+				int[] valor = tbHospedes.getSelectedRows();
+				
+				if(valor[0] >= 0)
+				{
+					editarHospede(tbHospedes);
+				}else
+				{
+					System.out.println("Não foi possível pegar o hóspede!");
+				}
+			}
+		});
+		
+		
 		btnEditar.setLayout(null);
 		btnEditar.setBackground(new Color(12, 138, 199));
 		btnEditar.setBounds(635, 508, 122, 35);
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
 		
+
 		JLabel lblEditar = new JLabel("EDITAR");
 		lblEditar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditar.setForeground(Color.WHITE);
@@ -310,6 +332,25 @@ public class Buscar extends JFrame
 		setResizable(false);
 	}
 	
+	protected void editarHospede(JTable tbHospedes) 
+	{		
+		hospede.setId((int) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 0));
+		hospede.setNome(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 1).toString());
+		hospede.setSobrenome(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 2).toString());
+		hospede.setDataNascimento((Date) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 3));
+		hospede.setNacionalidade(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 4).toString());
+		hospede.setTelefone(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 5).toString()) ;
+		hospede.setNumeroDeReserva((Integer) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 6));
+		
+		if(hospedeController.atualizarHospede(hospede))
+		{
+			JOptionPane.showMessageDialog(null, "Hóspede atualizado com sucesso!");
+		}else
+		{
+			JOptionPane.showMessageDialog(null, "Por favor, verifique os campos do hóspede!");
+		}
+	}
+
 	//Código que permite movimentar a janela pela tela seguindo a posição de "x" e "y"	
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
 	        xMouse = evt.getX();

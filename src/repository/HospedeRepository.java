@@ -16,7 +16,7 @@ import model.Hospede;
 
 public class HospedeRepository 
 {
-	private ConnectionFactory connectionFactory = null;
+	private ConnectionFactory connectionFactory = new ConnectionFactory();
 	private Connection connection = null;
 	private PreparedStatement statement = null;
 	private ResultSet resultSet = null;
@@ -25,18 +25,9 @@ public class HospedeRepository
 	private List<Hospede> hospedes = new ArrayList<>();
 	
 	
-	public HospedeRepository()
+	public HospedeRepository() 
 	{
-		connectionFactory = new ConnectionFactory();
-		
-		try 
-		{
-			connection = connectionFactory.getConnection();
-		} catch (SQLException e) 
-		{
-			System.out.println("Não foi possível estabelecer uma conexão!");
-			e.printStackTrace();
-		}
+		connection = connectionFactory.getConnection();
 	}
 	
 	
@@ -44,6 +35,9 @@ public class HospedeRepository
 	{
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
+			
 			sql = "INSERT INTO hospedes (NOME, SOBRE_NOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) VALUES (?, ?, ?, ?, ?, ?)";
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
@@ -66,9 +60,10 @@ public class HospedeRepository
 			e.printStackTrace();
 		}finally 
 		{
+			connectionFactory.closeConnection();
 			try 
 			{
-				connectionFactory.closeConnection();
+				statement.close();
 			} catch (SQLException e) 
 			{
 				e.printStackTrace();
@@ -78,10 +73,57 @@ public class HospedeRepository
 		return hospede;
 	}
 	
+	public Boolean atualizar(Hospede hospede)
+	{
+		try
+		{
+			connection = connectionFactory.getConnection();
+
+			
+			sql = "UPDATE hospedes SET NOME = ?, SOBRE_NOME = ?, DATA_NASCIMENTO = ?, NACIONALIDADE = ?, TELEFONE = ?, ID_RESERVA = ? WHERE ID = ?";
+
+			statement = connection.prepareStatement(sql);
+
+			statement.setString(1, hospede.getNome());
+			statement.setString(2, hospede.getSobrenome());
+			statement.setDate(3, hospede.getDataNascimento());
+			statement.setString(4, hospede.getNacionalidade());
+			statement.setString(5, hospede.getTelefone());
+			statement.setInt(6, hospede.getNumeroDeReserva());
+			statement.setInt(7, hospede.getId());
+			
+			int updt = statement.executeUpdate();
+
+			if(updt == 0)
+			{
+				return false;
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}finally 
+		{
+			connectionFactory.closeConnection();
+			try
+			{
+				statement.close();
+				
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
+	}
+	
 	public List<Hospede> listar()
 	{
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
+			
 			sql = "SELECT * FROM hospedes";
 			statement = connection.prepareStatement(sql);
 			
@@ -110,10 +152,13 @@ public class HospedeRepository
 		return hospedes;
 	}
 	
-	public Hospede buscaPorId(Long id)
+	public Hospede buscaPorId(Long id) throws SQLException
 	{		
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
+			
 			sql = "SELECT * FROM reservas WHERE id = ?";
 			
 			statement = connection.prepareStatement(sql);
@@ -136,13 +181,8 @@ public class HospedeRepository
 			e.printStackTrace();
 		}finally
 		{
-			try
-			{
-				connection.close();
-			}catch(SQLException e)
-			{
-				e.printStackTrace();
-			}
+			connectionFactory.closeConnection();
+			statement.close();
 		}
 		
 		return hospede;
@@ -178,13 +218,7 @@ public class HospedeRepository
 			e.printStackTrace();
 		}finally
 		{
-			try
-			{
-				connection.close();
-			}catch(SQLException e)
-			{
-				e.printStackTrace();
-			}
+			connectionFactory.closeConnection();
 		}
 		
 		return  null;

@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Hospede;
@@ -64,7 +65,13 @@ public class HospedeService
 	{
 		if(id >= 0)
 		{
-			hospede = hospedeRepository.buscaPorId(id);
+			try 
+			{
+				hospede = hospedeRepository.buscaPorId(id);
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		if(hospede == null)
@@ -93,6 +100,18 @@ public class HospedeService
 		
 		return modelo;
 	}
+	
+	
+	public Boolean atualizar(Hospede hospede)
+	{
+		if(hospede.getId() >= 0)
+		{
+			return hospedeRepository.atualizar(hospede);
+		}
+
+		return false;
+	}
+	
 	
 	public List<Hospede> listar()
 	{
