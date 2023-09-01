@@ -49,8 +49,6 @@ public class ReservaService
 			rowData[2] = "";
 			rowData[3] = "";
 			rowData[4] = "";
-
-			modelo.addRow(rowData);
 		}else
 		{
 			rowData[0] = reserva.getId();
@@ -58,9 +56,9 @@ public class ReservaService
 			rowData[2] = reserva.getDataSaida();
 			rowData[3] = reserva.getValor();
 			rowData[4] = reserva.getFormaDePagamento();
-			
-			modelo.addRow(rowData);
 		}
+		
+		modelo.addRow(rowData);
 		
 		return modelo;
 	}
@@ -117,5 +115,15 @@ public class ReservaService
 		}
 		
 		return null;
+	}
+
+	public boolean atualizaReserva(Reserva reserva) 
+	{
+		if(reserva.getId() >= 0)
+		{
+			return reservaRepository.atualizar(reserva);
+		}
+		
+		return false;
 	}
 }

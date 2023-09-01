@@ -17,11 +17,6 @@ public class ReservaController
 		return service.CadastraReserva(reserva);
 	}
 	
-	public Reserva buscaPorId(Long id)
-	{
-		return service.buscarPorId(id);
-	}
-	
 	public DefaultTableModel buscaPorId(Long id, DefaultTableModel modelo)
 	{
 		return service.buscarPorId(id, modelo);
@@ -35,5 +30,10 @@ public class ReservaController
 	public Long calculaDiferenca(Long dataInicial, Long dataFinal)
 	{
 		return service.calculaValorDiarias(dataInicial, dataFinal);
+	}
+
+	public boolean atualizaReserva(Reserva reserva)
+	{
+		return service.atualizaReserva(reserva);
 	}
 }

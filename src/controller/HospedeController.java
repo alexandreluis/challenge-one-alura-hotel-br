@@ -18,15 +18,15 @@ public class HospedeController
 	{
 		return service.cadastrar(hospede);
 	}
-	
-	public DefaultTableModel buscaPorId(Long id, DefaultTableModel modelo)
+
+	public DefaultTableModel buscaPorIdReserva(Long id, DefaultTableModel modelo)
 	{
-		return service.buscarPorId(id, modelo);
+		return service.buscaPorIdReserva(id, modelo);
 	}
-	
-	public DefaultTableModel buscaPorIdReserva(Long id_reserva, DefaultTableModel modelo)
+
+	public DefaultTableModel buscaPorSobreNome(String sobreNome, DefaultTableModel modelo)
 	{
-		return service.buscaPorIdReserva(id_reserva, modelo);
+		return service.buscaPorSobreNome(sobreNome, modelo);
 	}
 	
 	public List<Hospede> listarHospedes()

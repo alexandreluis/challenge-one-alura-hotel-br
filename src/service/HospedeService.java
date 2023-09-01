@@ -1,8 +1,7 @@
 package service;
 
-import java.sql.SQLException;
-import java.util.List;
 
+import java.util.List;
 import model.Hospede;
 import javax.swing.table.DefaultTableModel;
 import repository.HospedeRepository;
@@ -27,11 +26,11 @@ public class HospedeService
 	}
 	
 	
-	public DefaultTableModel buscaPorIdReserva(Long id_reserva, DefaultTableModel modelo)
+	public DefaultTableModel buscaPorSobreNome(String sobreNome, DefaultTableModel modelo)
 	{
-		if(id_reserva >= 0)
+		if(!sobreNome.equals(""))
 		{
-			hospede = hospedeRepository.buscaPorIdReserva(id_reserva);
+			hospede = hospedeRepository.buscaPorSobreNome(sobreNome);
 		}
 		
 		if(hospede == null)
@@ -43,8 +42,6 @@ public class HospedeService
 			rowData[4] = "";
 			rowData[5] = "";
 			rowData[6] = "";
-			
-			modelo.addRow(rowData);
 		}else
 		{
 			rowData[0] = hospede.getId();
@@ -54,24 +51,18 @@ public class HospedeService
 			rowData[4] = hospede.getNacionalidade();
 			rowData[5] = hospede.getTelefone();
 			rowData[6] = hospede.getNumeroDeReserva();
-			
-			modelo.addRow(rowData);
 		}
+		
+		modelo.addRow(rowData);
 		
 		return modelo;
 	}
-	
-	public DefaultTableModel buscarPorId(Long id, DefaultTableModel modelo)
+
+	public DefaultTableModel buscaPorIdReserva(Long id, DefaultTableModel modelo)
 	{
 		if(id >= 0)
 		{
-			try 
-			{
-				hospede = hospedeRepository.buscaPorId(id);
-			} catch (SQLException e) 
-			{
-				e.printStackTrace();
-			}
+			hospede = hospedeRepository.buscaPorIdReserva(id);
 		}
 		
 		if(hospede == null)
@@ -83,8 +74,6 @@ public class HospedeService
 			rowData[4] = "";
 			rowData[5] = "";
 			rowData[6] = "";
-			
-			modelo.addRow(rowData);
 		}else
 		{
 			rowData[0] = hospede.getId();
@@ -94,13 +83,12 @@ public class HospedeService
 			rowData[4] = hospede.getNacionalidade();
 			rowData[5] = hospede.getTelefone();
 			rowData[6] = hospede.getNumeroDeReserva();
-			
-			modelo.addRow(rowData);
 		}
+		
+		modelo.addRow(rowData);
 		
 		return modelo;
 	}
-	
 	
 	public Boolean atualizar(Hospede hospede)
 	{

@@ -30,11 +30,13 @@ public class ReservaRepository
 	}
 	
 	public Reserva cadastrar(Reserva reserva)
-	{
-		sql = "INSERT INTO reservas (data_entrada, data_saida, valor, forma_pagamento) VALUES (?, ?, ?, ?)";
-		
+	{		
 		try 
 		{
+			connection = connectionFactory.getConnection();
+			
+			sql = "INSERT INTO reservas (data_entrada, data_saida, valor, forma_pagamento) VALUES (?, ?, ?, ?)";
+			
 			PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setDate(1, reserva.getDataEntrada());
@@ -59,6 +61,16 @@ public class ReservaRepository
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
+		}finally 
+		{
+			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		return reserva;
@@ -68,6 +80,8 @@ public class ReservaRepository
 	{		
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
 			sql = "SELECT * FROM reservas WHERE id = ?";
 			
 			statement = connection.prepareStatement(sql);
@@ -103,9 +117,16 @@ public class ReservaRepository
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
-		}finally
+		}finally 
 		{
 			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		return reserva;
@@ -119,6 +140,8 @@ public class ReservaRepository
 		
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
 			sql = "SELECT * FROM reservas";
 			
 			statement = connection.prepareStatement(sql);
@@ -153,11 +176,60 @@ public class ReservaRepository
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
-		}finally
+		}finally 
 		{
 			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		return lista;
+	}
+
+	public boolean atualizar(Reserva reserva) 
+	{
+		try
+		{
+			connection = connectionFactory.getConnection();
+		 
+			
+			sql = "UPDATE reservas SET ID  = ?, DATA_ENTRADA = ?, DATA_SAIDA = ?, VALOR = ?, FORMA_PAGAMENTO = ? WHERE ID = ?";
+			
+			statement = connection.prepareStatement(sql);
+		 
+			statement.setLong(1, reserva.getId());
+			statement.setDate(2, reserva.getDataEntrada());
+			statement.setDate(3, reserva.getDataSaida());
+			statement.setDouble(4, reserva.getValor());
+			statement.setString(5, reserva.getFormaDePagamento().getDescricao().toString());
+			statement.setLong(6, reserva.getId());
+			
+			int update = statement.executeUpdate();
+			
+			if(update == 0)
+			{
+				return false;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			connectionFactory.closeConnection();
+			try
+			{
+				statement.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
 	}
 }

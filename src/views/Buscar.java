@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.HospedeController;
 import controller.ReservaController;
+import model.FormaDePagamento;
 import model.Hospede;
 import model.Reserva;
 
@@ -39,7 +40,7 @@ public class Buscar extends JFrame
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHospedes = new JTable();
-	private JTable tbReservas;
+	private JTable tbReservas = new JTable();
 	private DefaultTableModel modelo;
 	private DefaultTableModel modeloHospedes;
 	private JLabel labelAtras;
@@ -48,6 +49,7 @@ public class Buscar extends JFrame
 	private ReservaController reservaController;
 	private HospedeController hospedeController;
 	private static Hospede hospede = new Hospede();
+	private static Reserva reserva = new Reserva();
 
 
 	/**
@@ -107,8 +109,7 @@ public class Buscar extends JFrame
 		contentPane.add(panel);
 
 		
-		
-		tbReservas = new JTable();
+	
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modelo = (DefaultTableModel) tbReservas.getModel();
@@ -139,6 +140,7 @@ public class Buscar extends JFrame
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHospedes);
 		panel.addTab("Huéspedes", new ImageIcon(Buscar.class.getResource("/imagenes/pessoas.png")), scroll_tableHuespedes, null);
 		scroll_tableHuespedes.setVisible(true);
+		
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Buscar.class.getResource("/imagenes/Ha-100px.png")));
@@ -237,33 +239,101 @@ public class Buscar extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if(!txtBuscar.getText().equals(""))
+				if(panel.getSelectedIndex() == 0)
 				{
 					modelo.getDataVector().removeAllElements();
-					
-					reservaController = new ReservaController();
-					modelo = reservaController.buscaPorId(Long.parseLong(txtBuscar.getText()), modelo);
-					
 					modeloHospedes.getDataVector().removeAllElements();
 					
+					reservaController = new ReservaController();
+					modelo = reservaController.buscaPorId(Long.parseLong(txtBuscar.getText().toString()), modelo);
+					
+					 
 					hospedeController = new HospedeController();
-					modeloHospedes = hospedeController.buscaPorIdReserva(Long.parseLong(txtBuscar.getText()), modeloHospedes);
+					modeloHospedes = hospedeController.buscaPorIdReserva(Long.parseLong(txtBuscar.getText().toString()), modeloHospedes);
+					
 					
 					if(modeloHospedes == null)
 					{
-						JOptionPane.showMessageDialog(null, "Não temos hóspede para esta reserva.");
+						modeloHospedes.getDataVector().removeAllElements();
+						modelo.getDataVector().removeAllElements();
+						
+						JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
 						
 						Object[] rowData = new Object[7];
+						rowData[0] = "";
+						rowData[1] = "";
+						rowData[2] = "";
+						rowData[3] = "";
+						rowData[4] = "";
+						rowData[5] = "";
+						rowData[6] = "";
 						
-						rowData[0] = hospede.getId();
-						rowData[1] = hospede.getNome();
-						rowData[2] = hospede.getSobrenome();
-						rowData[3] = hospede.getDataNascimento();
-						rowData[4] = hospede.getNacionalidade();
-						rowData[5] = hospede.getTelefone();
-						rowData[6] = hospede.getNumeroDeReserva();
+						modeloHospedes.addColumn(rowData);
+
 						
-						modeloHospedes.addColumn(hospede);
+						Object[] rowDataModelo = new Object[5];
+						rowDataModelo[0] = "";
+						rowDataModelo[1] = "";
+						rowDataModelo[2] = "";
+						rowDataModelo[3] = "";
+						rowDataModelo[4] = "";
+						
+						modelo.addColumn(rowDataModelo);
+					}
+				}
+				
+				if(panel.getSelectedIndex() == 1)
+				{
+					if(!txtBuscar.getText().equals(""))
+					{
+						modeloHospedes.getDataVector().removeAllElements();
+						
+						hospedeController = new HospedeController();
+						modeloHospedes = hospedeController.buscaPorSobreNome(txtBuscar.getText(), modeloHospedes);
+						
+						
+						if(modeloHospedes == null)
+						{
+							modeloHospedes.getDataVector().removeAllElements();
+							modelo.getDataVector().removeAllElements();
+							
+							JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
+							
+							Object[] rowData = new Object[7];
+							rowData[0] = "";
+							rowData[1] = "";
+							rowData[2] = "";
+							rowData[3] = "";
+							rowData[4] = "";
+							rowData[5] = "";
+							rowData[6] = "";
+							
+							modeloHospedes.addColumn(rowData);
+
+							
+							Object[] rowDataModelo = new Object[5];
+							rowDataModelo[0] = "";
+							rowDataModelo[1] = "";
+							rowDataModelo[2] = "";
+							rowDataModelo[3] = "";
+							rowDataModelo[4] = "";
+							
+							modelo.addColumn(rowDataModelo);
+						}else
+						{						
+							if(modeloHospedes.getValueAt(0, 6) != null)
+							{				 
+								modelo.getDataVector().removeAllElements();
+								reservaController = new ReservaController();
+								modelo = reservaController.buscaPorId(Long.parseLong(modeloHospedes.getValueAt(0, 6).toString()), modelo);
+							}else
+							{
+								modeloHospedes.getDataVector().removeAllElements();
+								modelo.getDataVector().removeAllElements();
+								
+								JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
+							}
+						}
 					}
 				}
 			}
@@ -288,15 +358,29 @@ public class Buscar extends JFrame
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
-			{				
+			{			
 				int[] valor = tbHospedes.getSelectedRows();
+				int[] valorReserva = tbReservas.getSelectedRows();
 				
-				if(valor[0] >= 0)
+				
+				if(panel.getSelectedIndex() == 0)
 				{
-					editarHospede(tbHospedes);
-				}else
+					if(valorReserva[0] >= 0)
+					{
+						editarReserva(tbReservas);
+					}
+				}
+				
+				
+				if(panel.getSelectedIndex() == 1)
 				{
-					System.out.println("Não foi possível pegar o hóspede!");
+					if(valor[0] >= 0)
+					{
+						editarHospede(tbHospedes);
+					}else
+					{
+						System.out.println("Não foi possível pegar o hóspede!");
+					}
 				}
 			}
 		});
@@ -332,6 +416,23 @@ public class Buscar extends JFrame
 		setResizable(false);
 	}
 	
+	protected void editarReserva(JTable tbReservas) 
+	{
+		reserva.setId((long) tbReservas.getValueAt(tbReservas.getSelectedRow(), 0));
+        reserva.setDataEntrada((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 1));
+        reserva.setDataSaida((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 2));
+        reserva.setValor(Double.valueOf(tbReservas.getValueAt(tbReservas.getSelectedRow(), 3).toString()));
+        reserva.setFormaDePagamento((FormaDePagamento) tbReservas.getValueAt(tbReservas.getSelectedRow(), 4));
+        
+        if(reservaController.atualizaReserva(reserva))
+        {
+        	JOptionPane.showMessageDialog(null,  "Reserva atualizada com sucesso!");
+        }else
+		{
+			JOptionPane.showMessageDialog(null, "Por favor, verifique os campos do hóspede!");
+		}
+	}
+
 	protected void editarHospede(JTable tbHospedes) 
 	{		
 		hospede.setId((int) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 0));

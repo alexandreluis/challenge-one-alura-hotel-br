@@ -80,7 +80,7 @@ public class HospedeRepository
 			connection = connectionFactory.getConnection();
 
 			
-			sql = "UPDATE hospedes SET NOME = ?, SOBRE_NOME = ?, DATA_NASCIMENTO = ?, NACIONALIDADE = ?, TELEFONE = ?, ID_RESERVA = ? WHERE ID = ?";
+			sql = "UPDATE hospedes SET NOME = ?, SOBRENOME = ?, DATA_NASCIMENTO = ?, NACIONALIDADE = ?, TELEFONE = ?, ID_RESERVA = ? WHERE ID = ?";
 
 			statement = connection.prepareStatement(sql);
 
@@ -92,9 +92,9 @@ public class HospedeRepository
 			statement.setInt(6, hospede.getNumeroDeReserva());
 			statement.setInt(7, hospede.getId());
 			
-			int updt = statement.executeUpdate();
+			int update = statement.executeUpdate();
 
-			if(updt == 0)
+			if(update == 0)
 			{
 				return false;
 			}
@@ -147,42 +147,64 @@ public class HospedeRepository
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
+		}finally 
+		{
+			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return hospedes;
 	}
 	
-	public Hospede buscaPorId(Long id) throws SQLException
+	public Hospede buscaPorSobreNome(String sobreNome)
 	{		
 		try
 		{
 			connection = connectionFactory.getConnection();
 			
 			
-			sql = "SELECT * FROM reservas WHERE id = ?";
+			sql = "SELECT * FROM hospedes WHERE SOBRENOME = ?";
 			
 			statement = connection.prepareStatement(sql);
-			statement.setLong(1, id);
+			statement.setString(1, sobreNome);
 			
-			resultSet = statement.getResultSet();
-			
-			while(resultSet.next())
+			if(statement.execute())
 			{
-				hospede.setId(resultSet.getInt("ID"));
-				hospede.setNome(resultSet.getString("NOME"));
-				hospede.setSobrenome(resultSet.getString("SOBRE_NOME"));
-				hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
-				hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
-				hospede.setTelefone(resultSet.getString("TELEFONE"));
-				hospede.setNumeroDeReserva(resultSet.getInt("ID_RESERVA"));
+				resultSet = statement.getResultSet();
+				
+				while(resultSet.next())
+				{
+					hospede.setId(resultSet.getInt("ID"));
+					hospede.setNome(resultSet.getString("NOME"));
+					hospede.setSobrenome(resultSet.getString("SOBRENOME"));
+					hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
+					hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
+					hospede.setTelefone(resultSet.getString("TELEFONE"));
+					hospede.setNumeroDeReserva(resultSet.getInt("ID_RESERVA"));
+				}
+			}else
+			{
+				return null;
 			}
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
-		}finally
+		}finally 
 		{
 			connectionFactory.closeConnection();
-			statement.close();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		return hospede;
@@ -192,6 +214,9 @@ public class HospedeRepository
 	{
 		try
 		{
+			connection = connectionFactory.getConnection();
+			
+			
 			sql = "SELECT * FROM hospedes WHERE id_reserva = ?";
 			
 			statement = connection.prepareStatement(sql);
@@ -199,13 +224,12 @@ public class HospedeRepository
 			statement.execute();
 			
 			resultSet = statement.getResultSet();
-						
 	
 			while(resultSet.next())
 			{
 				hospede.setId(resultSet.getInt("ID"));
 				hospede.setNome(resultSet.getString("NOME"));
-				hospede.setSobrenome(resultSet.getString("SOBRE_NOME"));
+				hospede.setSobrenome(resultSet.getString("SOBRENOME"));
 				hospede.setDataNascimento(resultSet.getDate("DATA_NASCIMENTO"));
 				hospede.setNacionalidade(resultSet.getString("NACIONALIDADE"));
 				hospede.setTelefone(resultSet.getString("TELEFONE"));
@@ -216,11 +240,18 @@ public class HospedeRepository
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
-		}finally
+		}finally 
 		{
 			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		
-		return  null;
+		return  hospede;
 	}
 }
