@@ -38,4 +38,9 @@ public class HospedeController
 	{
 		return service.atualizar(modelo);
 	}
+	
+	public Boolean deletarHospede(Hospede hospede)
+	{
+		return service.deletarHospede(hospede);
+	}
 }

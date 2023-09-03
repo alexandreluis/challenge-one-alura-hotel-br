@@ -126,4 +126,14 @@ public class ReservaService
 		
 		return false;
 	}
+	
+	public Boolean deletarReservaPorId(Reserva reserva)
+	{
+		if(reserva.getId() >= 0)
+		{System.out.println("reserva.getId() " + reserva.getId());
+			return reservaRepository.deletarReservaPorId(reserva.getId());
+		}
+		
+		return false;
+	}
 }

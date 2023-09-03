@@ -110,4 +110,14 @@ public class HospedeService
 		
 		return null;
 	}
+	
+	public Boolean deletarHospede(Hospede hospede)
+	{
+		if(hospede.getId() >= 0)
+		{
+			return hospedeRepository.deletarHospede(Long.parseUnsignedLong(hospede.getId().toString()));
+		}
+		
+		return false;
+	}
 }

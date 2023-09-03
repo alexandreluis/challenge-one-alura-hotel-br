@@ -37,7 +37,7 @@ public class ReservaRepository
 			
 			sql = "INSERT INTO reservas (data_entrada, data_saida, valor, forma_pagamento) VALUES (?, ?, ?, ?)";
 			
-			PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setDate(1, reserva.getDataEntrada());
 			statement.setDate(2, reserva.getDataSaida());
@@ -231,5 +231,42 @@ public class ReservaRepository
 		}
 		
 		return true;
+	}
+	
+	public Boolean deletarReservaPorId(Long id)
+	{
+		try
+		{
+			connection = connectionFactory.getConnection();
+			
+			
+			sql = "DELETE FROM reservas WHERE ID = ?";
+			
+			statement = connection.prepareStatement(sql);
+			
+			statement.setLong(1, id);
+			
+			boolean valor = statement.execute();
+			System.out.println("valor " + valor);
+			if(valor)
+			{
+				return true;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally 
+		{
+			connectionFactory.closeConnection();
+			try
+			{
+				statement.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
 	}
 }

@@ -401,6 +401,54 @@ public class Buscar extends JFrame
 		btnEditar.add(lblEditar);
 		
 		JPanel btnDeletar = new JPanel();
+		btnDeletar.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{			
+				
+				int[] valor = tbHospedes.getSelectedRows();
+				
+				int[] valorReserva = tbReservas.getSelectedRows();
+				
+				try
+				{
+					if(panel.getSelectedIndex() == 0)
+					{
+						if(tbReservas.getSelectedRows().length >= 0)
+						{
+							deletarReserva(tbReservas, tbHospedes);
+							
+							modelo.removeRow(tbReservas.getSelectedRow());
+							modelo.getDataVector().removeAllElements();
+							modeloHospedes.getDataVector().removeAllElements();
+						}
+					}
+					
+					
+					if(panel.getSelectedIndex() == 1)
+					{
+						if(valor[0] >= 0)
+						{
+							deletarHospede(tbHospedes);
+							
+							modeloHospedes.removeRow(tbHospedes.getSelectedRow());
+							modeloHospedes.getDataVector().removeAllElements();					
+							modelo.getDataVector().removeAllElements();
+						}else
+						{
+							JOptionPane.showMessageDialog(null, "Não temos este hóspede!");
+						}
+					}
+				}catch(ArrayIndexOutOfBoundsException ex)
+				{
+					JOptionPane.showMessageDialog(null, "Sem informação para excluir do sistema!");
+				}
+				
+			}
+		});
+		
+		
 		btnDeletar.setLayout(null);
 		btnDeletar.setBackground(new Color(12, 138, 199));
 		btnDeletar.setBounds(767, 508, 122, 35);
@@ -416,6 +464,61 @@ public class Buscar extends JFrame
 		setResizable(false);
 	}
 	
+	protected void deletarHospede(JTable tbHospedes) 
+	{
+		hospede.setId((int) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 0));
+		hospede.setNome(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 1).toString());
+		hospede.setSobrenome(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 2).toString());
+		hospede.setDataNascimento((Date) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 3));
+		hospede.setNacionalidade(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 4).toString());
+		hospede.setTelefone(tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 5).toString()) ;
+		hospede.setNumeroDeReserva((Integer) tbHospedes.getValueAt(tbHospedes.getSelectedRow(), 6));
+		
+		
+		if(hospedeController.deletarHospede(hospede))
+		{
+			JOptionPane.showMessageDialog(null, "Hóspede excluído com sucesso!");
+		}else
+		{
+			JOptionPane.showMessageDialog(null, "Não foi possível deletar o hóspede!");
+		}
+	}
+
+	protected void deletarReserva(JTable tbReservas, JTable tbHospedes) 
+	{
+		hospedeController.deletarHospede(hospede);
+		
+		System.out.println("1 "  );
+		reserva.setId((long) tbReservas.getValueAt(tbReservas.getSelectedRow(), 0));
+        reserva.setDataEntrada((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 1));
+        reserva.setDataSaida((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 2));
+        reserva.setValor(Double.valueOf(tbReservas.getValueAt(tbReservas.getSelectedRow(), 3).toString()));
+        reserva.setFormaDePagamento((FormaDePagamento) tbReservas.getValueAt(tbReservas.getSelectedRow(), 4));
+        
+        if(reservaController.deletarReservaPorId(reserva))
+        {System.out.println("2 "  );
+        	JOptionPane.showMessageDialog(null, "Reserva excluída com sucesso!");
+		}else
+		{System.out.println("3 "  );
+			JOptionPane.showMessageDialog(null, "Não foi possível deletar o reserva!");
+		}
+
+        modelo.getDataVector().removeAllElements();
+        hospedeController.cadastraHospede(hospede);
+        
+
+   
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
 	protected void editarReserva(JTable tbReservas) 
 	{
 		reserva.setId((long) tbReservas.getValueAt(tbReservas.getSelectedRow(), 0));

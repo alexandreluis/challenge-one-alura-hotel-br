@@ -1,7 +1,6 @@
 package repository;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class HospedeRepository
 			connection = connectionFactory.getConnection();
 			
 			
-			sql = "INSERT INTO hospedes (NOME, SOBRE_NOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) VALUES (?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO hospedes (NOME, SOBRENOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) VALUES (?, ?, ?, ?, ?, ?)";
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			statement.setString(1, hospede.getNome());
@@ -253,5 +252,41 @@ public class HospedeRepository
 		}
 		
 		return  hospede;
+	}
+	
+	public Boolean deletarHospede(Long id)
+	{
+		try
+		{
+			connection = connectionFactory.getConnection();
+			
+			
+			sql = "DELETE FROM hospedes WHERE ID = ?";
+			
+			statement = connection.prepareStatement(sql);
+			statement.setLong(1, id);
+			
+			int valor = statement.executeUpdate();
+			
+			if(valor >= 1)
+			{
+				return true;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			connectionFactory.closeConnection();
+			try
+			{
+				statement.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
 	}
 }
