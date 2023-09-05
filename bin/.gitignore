@@ -1,6 +1,8 @@
 /connection/
 /controller/
-/imagenes/
-/views/
+/model/
 /repository/
 /service/
+/utilities/
+/views/
+/imagens/

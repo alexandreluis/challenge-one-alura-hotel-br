@@ -10,7 +10,7 @@
 
 #### 🔹 Marque esse projeto com uma ⭐
 #### 🔹 Siga as orientações do que temos neste repositório 📚
-#### 🔹 Visite a página do desafio clicando aqui! [Link do Challenge](https://www.alura.com.br/challenges/oracle-one-back-end/hotelalura) 📃 
+#### 🔹 Visite a página do desafio clicando aqui: [Link do Challenge](https://www.alura.com.br/challenges/oracle-one-back-end/hotelalura) 📃 
 </br>
 
 ## 🖥️ Tecnologias Utilizadas:
@@ -19,6 +19,7 @@
 - Eclipse
 - MySql
 - Biblioteca JCalendar
+- Plugin BCrypt
 - Plugin WindowBuilder </br>
 
 ---
@@ -30,18 +31,24 @@
 🎨 A interface contém dois importantes métodos:
 - setResizable(false): determina o tamanho da janela, e através do parâmetro <strong>false</strong>, a tela não poderá ser maximizada;
 - setLocationRelativeTo(null): determina a localização da janela, e através do parâmetro <strong>null</strong> ele a mantém centralizada na tela.
-
-#### Para este desafio, concentre-se na parte lógica e de conexão com o Banco de Dados, após concluir o desafio, sinta-se a vontade para incluir novas funcionalidades e modificar a interface gráfica. 
-
+- calculaTempoEmDias(Long tempoEmMilissegundos): calcula e devolve o número de dias
+- hashPassword(String password_plaintext): a partir de uma string, calcula e retorna uma string codificada
+- checkPassword(String password_plaintext, String stored_hash): verifica se a string codigicada corresponde ao texto inserido
 
 ---
 
 
-## 🔍 Analisando nosso repositório!
+## 🔍 Analisando este repositório
 
-### Este é o repositório base do nosso projeto, nele você encontrará:
+### Este é o repositório do nosso projeto, Controle de Reservas e, nele você encontrará:
 #### 🔹 src/views: pasta com toda a interface gráfica das telas necessárias para desenvolver o programa;
-#### 🔹 src/imagens: pasta com imagens que você pode utilizar em seu projeto. Sinta-se a vontade para utilizar outras, caso deseje.
+#### 🔹 src/utilities: pasta com ferramentas necessárias para desenvolver o controle de acesso ao programa;
+#### 🔹 src/service: pasta com serviços disponível para o desenvolvimento do programa;
+#### 🔹 src/repository: pasta com meios de acesso ao banco de dados para desenvolver o programa;
+#### 🔹 src/model: pasta com todo o domínio do programa;
+#### 🔹 src/controller: pasta com arquivos de controle do programa;
+#### 🔹 src/connetion: pasta com o meio de conexão ao banco de dados do programa;
+#### 🔹 src/imagens: pasta com imagens que você pode utilizar em seu projeto.
 </br>
 
 ## ⬇️ Download
@@ -257,29 +264,21 @@ Clique na opção para aceitar os Termos de Uso, e para concluir clique em <em>F
      <img width="500" heigth="500" src="https://user-images.githubusercontent.com/101413385/173255298-05ac80f1-3e93-4097-90af-7fc8a4fa1611.png">
 </p>
 
-     
-## 📬 Entrega
+## 🗔 Plugin BCrypt
 
-### Como incluir meu projeto com a "#" do desafio?
+Projeto: [Link do projeto](https://www.mindrot.org/projects/jBCrypt/) 📚 
 
-1) Tenha o <strong>Fork</strong> do projeto em seu repositório no Github.
-2) Utilize o tópico **#challengeonealurahotelbr4**. Vá na aba esquerda do seu projeto na seção <em>About</em> e clique na engrenagem de configuração selecione o campo **topics** e insira a etiqueta **challengeonealurahotelbr4**.
+Direitos: Copyright (c) 2006 Damien Miller <djm@mindrot.org>
 
-
-![gif-vitrine](https://user-images.githubusercontent.com/91544872/153601047-62aee6cb-e3cf-42b3-92c3-7130c996113f.gif)
-
-### Como faço a entrega final do meu Projeto?
-
-4) Preencha o formulário a seguir com seus dados pessoais, juntamente com o link do seu repositório.🔹 [Link para o formulário](https://lp.alura.com.br/alura-latam-entrega-challenge-one-portugues-back-end)
-
-<p align="center" >
-     <img width="700" heigth="700" src="https://user-images.githubusercontent.com/91544872/218554361-c5fa616a-3232-4a21-998c-3b03fb7a0c8c.png">
-</p>
+Data da visita ao projeto: 18/08/2023
 
 
-5) Vá para seu e-mail e resgate sua badge conquistada por encerrar mais um desafio no Projeto ONE! 🏆
 
-6) Não se esqueça de colocar um link ou vídeo de seu projeto no Linkedin! Marque com a #Oracle #AluraLatam 🏁
+## 📬 Correio
+
+Se precisar, entre em contato em: alexandreluisrigotti@gmail.com
+
+### Precisa de ajuda sobre o meu Projeto?
 
 
 🧡 <strong>Oracle</strong></br>
@@ -288,4 +287,8 @@ Clique na opção para aceitar os Termos de Uso, e para concluir clique em <em>F
 
 💙 <strong>Alura Latam</strong></br>
 <a href="https://www.linkedin.com/company/alura-latam/mycompany/" target="_blank">
+<img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+
+💙 <strong>Alexandre Luís</strong></br>
+<a href="https://www.linkedin.com/in/alexandreluis/" target="_blank">
 <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
