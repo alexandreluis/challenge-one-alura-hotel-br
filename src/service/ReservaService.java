@@ -130,7 +130,7 @@ public class ReservaService
 	public Boolean deletarReservaPorId(Reserva reserva)
 	{
 		if(reserva.getId() >= 0)
-		{System.out.println("reserva.getId() " + reserva.getId());
+		{
 			return reservaRepository.deletarReservaPorId(reserva.getId());
 		}
 		

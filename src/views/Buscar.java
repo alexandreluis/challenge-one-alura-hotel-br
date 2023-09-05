@@ -41,7 +41,7 @@ public class Buscar extends JFrame
 	private JTextField txtBuscar;
 	private JTable tbHospedes = new JTable();
 	private JTable tbReservas = new JTable();
-	private DefaultTableModel modelo;
+	private DefaultTableModel modeloReservas;
 	private DefaultTableModel modeloHospedes;
 	private JLabel labelAtras;
 	private JLabel labelExit;
@@ -108,19 +108,15 @@ public class Buscar extends JFrame
 		panel.setBounds(20, 169, 865, 328);
 		contentPane.add(panel);
 
-		
-	
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
-		modelo = (DefaultTableModel) tbReservas.getModel();
-		modelo.addColumn("Numero de Reserva");
-		modelo.addColumn("Data Check In");
-		modelo.addColumn("Data Check Out");
-		modelo.addColumn("Valor");
-		modelo.addColumn("Forma de Pago");
+		modeloReservas = (DefaultTableModel) tbReservas.getModel();
+		modeloReservas.addColumn("Numero de Reserva");
+		modeloReservas.addColumn("Data Check In");
+		modeloReservas.addColumn("Data Check Out");
+		modeloReservas.addColumn("Valor");
+		modeloReservas.addColumn("Forma de Pago");
 
-		
-		
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Buscar.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
@@ -205,12 +201,15 @@ public class Buscar extends JFrame
 				dispose();
 			}
 			@Override
-			public void mouseEntered(MouseEvent e) { // Quando o usuário passa o mouse sobre o botão, ele muda de cor
+			public void mouseEntered(MouseEvent e) 
+			{ 
 				btnexit.setBackground(Color.red);
 				labelExit.setForeground(Color.white);
-			}			
+			}		
+			
 			@Override
-			public void mouseExited(MouseEvent e) { //Quando o usuário remove o mouse do botão, ele retornará ao estado original
+			public void mouseExited(MouseEvent e) 
+			{
 				 btnexit.setBackground(Color.white);
 			     labelExit.setForeground(Color.black);
 			}
@@ -241,11 +240,11 @@ public class Buscar extends JFrame
 			{
 				if(panel.getSelectedIndex() == 0)
 				{
-					modelo.getDataVector().removeAllElements();
+					modeloReservas.getDataVector().removeAllElements();
 					modeloHospedes.getDataVector().removeAllElements();
 					
 					reservaController = new ReservaController();
-					modelo = reservaController.buscaPorId(Long.parseLong(txtBuscar.getText().toString()), modelo);
+					modeloReservas = reservaController.buscaPorId(Long.parseLong(txtBuscar.getText().toString()), modeloReservas);
 					
 					 
 					hospedeController = new HospedeController();
@@ -255,7 +254,7 @@ public class Buscar extends JFrame
 					if(modeloHospedes == null)
 					{
 						modeloHospedes.getDataVector().removeAllElements();
-						modelo.getDataVector().removeAllElements();
+						modeloReservas.getDataVector().removeAllElements();
 						
 						JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
 						
@@ -278,7 +277,7 @@ public class Buscar extends JFrame
 						rowDataModelo[3] = "";
 						rowDataModelo[4] = "";
 						
-						modelo.addColumn(rowDataModelo);
+						modeloReservas.addColumn(rowDataModelo);
 					}
 				}
 				
@@ -295,7 +294,7 @@ public class Buscar extends JFrame
 						if(modeloHospedes == null)
 						{
 							modeloHospedes.getDataVector().removeAllElements();
-							modelo.getDataVector().removeAllElements();
+							modeloReservas.getDataVector().removeAllElements();
 							
 							JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
 							
@@ -318,18 +317,18 @@ public class Buscar extends JFrame
 							rowDataModelo[3] = "";
 							rowDataModelo[4] = "";
 							
-							modelo.addColumn(rowDataModelo);
+							modeloReservas.addColumn(rowDataModelo);
 						}else
 						{						
 							if(modeloHospedes.getValueAt(0, 6) != null)
 							{				 
-								modelo.getDataVector().removeAllElements();
+								modeloReservas.getDataVector().removeAllElements();
 								reservaController = new ReservaController();
-								modelo = reservaController.buscaPorId(Long.parseLong(modeloHospedes.getValueAt(0, 6).toString()), modelo);
+								modeloReservas = reservaController.buscaPorId(Long.parseLong(modeloHospedes.getValueAt(0, 6).toString()), modeloReservas);
 							}else
 							{
 								modeloHospedes.getDataVector().removeAllElements();
-								modelo.getDataVector().removeAllElements();
+								modeloReservas.getDataVector().removeAllElements();
 								
 								JOptionPane.showMessageDialog(null, "Não temos hóspede/reserva para este sobrenome.");
 							}
@@ -405,22 +404,18 @@ public class Buscar extends JFrame
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
-			{			
-				
+			{						
 				int[] valor = tbHospedes.getSelectedRows();
-				
 				int[] valorReserva = tbReservas.getSelectedRows();
-				
+
 				try
 				{
 					if(panel.getSelectedIndex() == 0)
 					{
-						if(tbReservas.getSelectedRows().length >= 0)
+						if(valorReserva[0] >= 0)
 						{
-							deletarReserva(tbReservas, tbHospedes);
-							
-							modelo.removeRow(tbReservas.getSelectedRow());
-							modelo.getDataVector().removeAllElements();
+							modeloReservas.removeRow(tbReservas.getSelectedRow());
+							modeloReservas.getDataVector().removeAllElements();
 							modeloHospedes.getDataVector().removeAllElements();
 						}
 					}
@@ -434,7 +429,7 @@ public class Buscar extends JFrame
 							
 							modeloHospedes.removeRow(tbHospedes.getSelectedRow());
 							modeloHospedes.getDataVector().removeAllElements();					
-							modelo.getDataVector().removeAllElements();
+							modeloReservas.getDataVector().removeAllElements();
 						}else
 						{
 							JOptionPane.showMessageDialog(null, "Não temos este hóspede!");
@@ -484,40 +479,30 @@ public class Buscar extends JFrame
 		}
 	}
 
-	protected void deletarReserva(JTable tbReservas, JTable tbHospedes) 
+	protected void deletarReserva(JTable tbReservas) 
 	{
-		hospedeController.deletarHospede(hospede);
+		Hospede hospedeDaReserva = new Hospede();
+		hospedeDaReserva = hospedeController.buscaPorIdReserva(Long.parseLong(txtBuscar.getText().toString()));
+
+		hospedeController.deletarHospede(hospedeDaReserva);
 		
-		System.out.println("1 "  );
-		reserva.setId((long) tbReservas.getValueAt(tbReservas.getSelectedRow(), 0));
-        reserva.setDataEntrada((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 1));
-        reserva.setDataSaida((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 2));
-        reserva.setValor(Double.valueOf(tbReservas.getValueAt(tbReservas.getSelectedRow(), 3).toString()));
-        reserva.setFormaDePagamento((FormaDePagamento) tbReservas.getValueAt(tbReservas.getSelectedRow(), 4));
-        
-        if(reservaController.deletarReservaPorId(reserva))
-        {System.out.println("2 "  );
+		System.out.println("5>> "  + hospedeDaReserva.getId() + " | "+ hospedeDaReserva.getNome());
+		Reserva minhaReserva = new Reserva();
+
+		minhaReserva.setId((long) tbReservas.getValueAt(tbReservas.getSelectedRow(), 0));
+		minhaReserva.setDataEntrada((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 1));
+		minhaReserva.setDataSaida((Date) tbReservas.getValueAt(tbReservas.getSelectedRow(), 2));
+		minhaReserva.setValor(Double.valueOf(tbReservas.getValueAt(tbReservas.getSelectedRow(), 3).toString()));
+		minhaReserva.setFormaDePagamento((FormaDePagamento) tbReservas.getValueAt(tbReservas.getSelectedRow(), 4));
+
+        if(reservaController.deletarReservaPorId(minhaReserva))
+        {
         	JOptionPane.showMessageDialog(null, "Reserva excluída com sucesso!");
 		}else
-		{System.out.println("3 "  );
+		{
 			JOptionPane.showMessageDialog(null, "Não foi possível deletar o reserva!");
 		}
-
-        modelo.getDataVector().removeAllElements();
-        hospedeController.cadastraHospede(hospede);
-        
-
-   
-
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 	protected void editarReserva(JTable tbReservas) 
 	{

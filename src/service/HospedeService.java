@@ -25,6 +25,15 @@ public class HospedeService
 		return null;
 	}
 	
+	public Hospede cadastrarHospedeSemReserva(Hospede hospede)
+	{
+		if(!hospede.equals(null))
+		{
+			return hospedeRepository.cadastrarHospedeSemReserva(hospede);
+		}
+		
+		return null;
+	}	
 	
 	public DefaultTableModel buscaPorSobreNome(String sobreNome, DefaultTableModel modelo)
 	{
@@ -88,6 +97,17 @@ public class HospedeService
 		modelo.addRow(rowData);
 		
 		return modelo;
+	}
+	
+	
+	public Hospede buscaPorIdReserva(Long id)
+	{
+		if(id >= 0)
+		{
+			return hospedeRepository.buscaPorIdReserva(id);
+		}
+		
+		return null;
 	}
 	
 	public Boolean atualizar(Hospede hospede)

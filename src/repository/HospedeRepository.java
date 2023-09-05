@@ -29,9 +29,58 @@ public class HospedeRepository
 		connection = connectionFactory.getConnection();
 	}
 	
-	
 	public Hospede cadastrar(Hospede hospede)
 	{
+		System.out.println(" " + hospede.getId());
+		System.out.println(" " + hospede.getNome());
+		System.out.println(" " + hospede.getSobrenome());
+		System.out.println(" " + hospede.getDataNascimento());
+		System.out.println(" " + hospede.getNacionalidade());
+		System.out.println(" " + hospede.getTelefone());
+		System.out.println(" " + hospede.getNumeroDeReserva());
+		
+		try
+		{
+			connection = connectionFactory.getConnection();
+			
+			
+			sql = "INSERT INTO hospedes (NOME, SOBRENOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) VALUES (?, ?, ?, ?, ?, ?)";
+			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			statement.setString(1, hospede.getNome());
+			statement.setString(2, hospede.getSobrenome());
+			statement.setDate(3, hospede.getDataNascimento());
+			statement.setString(4, hospede.getNacionalidade());
+			statement.setString(5, hospede.getTelefone());
+			statement.setInt(6, hospede.getNumeroDeReserva());
+			
+			statement.execute();
+			
+			if(statement.getGeneratedKeys() == null)
+			{
+				return null;
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}finally 
+		{
+			connectionFactory.closeConnection();
+			try 
+			{
+				statement.close();
+			} catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return hospede;
+	}
+	
+	public Hospede cadastrarHospedeSemReserva(Hospede hospede)
+	{	
 		try
 		{
 			connection = connectionFactory.getConnection();
@@ -210,7 +259,7 @@ public class HospedeRepository
 	}
 	
 	public Hospede buscaPorIdReserva(Long id_reserva)
-	{
+	{ 
 		try
 		{
 			connection = connectionFactory.getConnection();

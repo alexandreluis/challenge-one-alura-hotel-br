@@ -18,12 +18,22 @@ public class HospedeController
 	{
 		return service.cadastrar(hospede);
 	}
-
+	
+	public Hospede cadastrarHospedeSemReserva(Hospede hospede)
+	{
+		return service.cadastrarHospedeSemReserva(hospede);
+	}
+	
 	public DefaultTableModel buscaPorIdReserva(Long id, DefaultTableModel modelo)
 	{
 		return service.buscaPorIdReserva(id, modelo);
 	}
 
+	public Hospede buscaPorIdReserva(Long id)
+	{
+		return service.buscaPorIdReserva(id);
+	}
+	
 	public DefaultTableModel buscaPorSobreNome(String sobreNome, DefaultTableModel modelo)
 	{
 		return service.buscaPorSobreNome(sobreNome, modelo);

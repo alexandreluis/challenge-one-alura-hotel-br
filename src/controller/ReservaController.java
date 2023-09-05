@@ -38,7 +38,7 @@ public class ReservaController
 	}
 	
 	public Boolean deletarReservaPorId(Reserva reserva)
-	{System.out.println("deletarReservaPorId controller "  );
+	{
 		return service.deletarReservaPorId(reserva);
 	}
 }

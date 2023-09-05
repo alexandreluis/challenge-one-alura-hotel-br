@@ -246,9 +246,9 @@ public class ReservaRepository
 			
 			statement.setLong(1, id);
 			
-			boolean valor = statement.execute();
-			System.out.println("valor " + valor);
-			if(valor)
+			int valor = statement.executeUpdate();
+			
+			if(valor >= 1)
 			{
 				return true;
 			}
