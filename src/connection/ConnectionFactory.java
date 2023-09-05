@@ -11,7 +11,7 @@ public class ConnectionFactory
 {
 	private String address = "jdbc:mysql://localhost:3306/";
 	private String serverConfig = "?useTimezone=true&serverTimezone=UTC";
-	private String dbName = "alurahotela";
+	private String dbName = "alurahotel";
 	private String url = address  + dbName + serverConfig;
 	private String user = "root";
 	private String password = "";

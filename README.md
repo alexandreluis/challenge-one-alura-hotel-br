@@ -5,6 +5,98 @@
 
 </p>
 
+
+---
+## Versão do projeto: 1
+## Idioma: Português:
+
+## Resumo das especificações técnicas:
+
+O projeto é o desafio final da segunda parte do programa de capacitação ONE, que consistem em desenvolver o Backend de um sistema de reservas.
+
+A aplicação se propõe a controlar as reservas da empresa, e consegue restringir acesso ao usuário interno;
+
+permitir cadastrar uma reserva (com data, quantidade de dias, forma de pagamento, e valor a pagar), e um cliente refrente esta reserva (com nome, sobrenome, data de nascimento, nacionalidade, telefone, número de reserva);
+
+permite editar e deletar a reserva e o cliente referente esta reserva;
+
+sistema é para uso em desktop;
+
+disponibilizar login e, senha criptografada, de acesso ao sistema;
+
+Um diferencial é trazer praticidade e agilidade, ao prestar o serviço no ato do atendimento, e controle total sobre as reservas;
+
+
+## O que o projeto não é capaz de atender no momento:
+
+não é capaz de aceitar pagamentos com criptomoedas;
+
+escalar;
+
+alta disponibilidade;
+
+acesso de clientes a plataforma;
+
+não permite uso de outros idiomas;
+
+não é capaz de se protejer contra ataque de terceiros feitos presencialmente;
+
+
+---
+## O desafio ao desenvolver:
+
+Unir todas as faces em um projeto não é tão simples quanto parece, por outro lado, o uso de uma tecnologia que tem um ótimo suporte (comunidade, documentação, maturidade) contribui facilitando e acelerando o processo de desenvolvimento.
+ 
+ 
+---
+## Funcionamento:
+
+Sugestão
+
+É possível baixar o projeto, configure o banco de dados (pasta DOCS) no SGBD MySQL, importe e compile o projeto na IDE Eclipse, usar o projeto em qualquer meio que contenha uma máquina virtual;
+
+Sistema contém usuário: admin e senha: admin;
+
+
+---
+## Testagem e suporte:
+
+A desenvolver testes.
+
+
+---
+## Notas: 
+### Para desenvolviemnto futuro:
+
+Implementar testes unitários;
+
+Implementear testes de integração, disponibilidade;
+
+Cadastro e controle de usuário;
+
+Suporte a multi-usuário;
+
+Cadastro e manutenção usuário;
+
+Controle administrativo sobre o sistema;
+
+Sistema contra falhas;
+
+Disponibilizar o sistema online;
+
+Escalar a aplicação;
+
+Cadastro cliente;
+
+Controle e manutenção de clientes;
+
+Sistema de pagamento;
+
+Adição de idiomas;
+
+Adição de logs;
+ 
+
 ---
 ##  Primeiros Passos:
 
@@ -22,6 +114,7 @@
 - Plugin BCrypt
 - Plugin WindowBuilder </br>
 
+
 ---
 ## ⚠️ Importante! ⚠️
 
@@ -35,8 +128,8 @@
 - hashPassword(String password_plaintext): a partir de uma string, calcula e retorna uma string codificada
 - checkPassword(String password_plaintext, String stored_hash): verifica se a string codigicada corresponde ao texto inserido
 
----
 
+---
 
 ## 🔍 Analisando este repositório
 
